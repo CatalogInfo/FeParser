@@ -1,7 +1,7 @@
 import api_factory from "./api_factory";
 import BaseApiResponse from "../response/base_api_response";
-import OrderBooks from "../response/order_books";
-import TradingPairs from "../response/trading_pairs";
+import OrderBooks from "../response/order_book_response";
+import TradingPairs from "../response/trading_pair_response";
 
 export default class ExhangeApi {
 

@@ -1,4 +1,4 @@
-import type BaseApiResponse from "./response/base_api_response";
+import type BaseApiResponse from "../response/base_api_response";
 
 export default interface BaseApi {
   get<T>(url: string): Promise<BaseApiResponse<T>>;

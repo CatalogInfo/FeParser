@@ -1,7 +1,7 @@
 import axios, { type AxiosResponse } from "axios";
 import applyCaseMiddleware from "axios-case-converter";
 import type BaseApi from "./base_api";
-import type BaseApiResponse from "./response/base_api_response";
+import type BaseApiResponse from "../response/base_api_response";
 
 
 function convertAxiosResponse<T>(response: AxiosResponse<T>): BaseApiResponse<T> {

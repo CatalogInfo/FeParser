@@ -1,12 +1,16 @@
 import './App.css'
 import ExhangeApi from './api/exchange_api';
+import Splitter from './splitter/splitter';
+import Exchange from './models/exchange';
 
 function App() {
 
   async function callApi() {
-    const api: ExhangeApi = new ExhangeApi();
-    console.log(await api.getTradingPairs("binance"));
+    // const api: ExhangeApi = new ExhangeApi();
+    // console.log(await api.getTradingPairs("binance"));
     // console.log(api.getOrderBooks("gate"));
+    // console.log(await new Exchange("binance", "").getBaseQuotes());
+    console.log(Splitter.split())
 
   }
 

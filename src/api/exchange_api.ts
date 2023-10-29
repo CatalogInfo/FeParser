@@ -1,17 +1,17 @@
 import api_factory from "./api_factory";
 import BaseApiResponse from "../response/base_api_response";
-import OrderBooks from "../response/order_book_response";
-import TradingPairs from "../response/trading_pair_response";
+import OrderBook from "../response/order_book_response";
+import TradingPair from "../response/trading_pair_response";
 
-export default class ExhangeApi {
+export default class ExchangeApi {
 
   baseUrl = "http://localhost:8080";
 
-  async getOrderBooks(exchange: string, symbols: string[]): Promise<BaseApiResponse<OrderBooks>> {
+  async getOrderBooks(symbols: string[], exchange: string): Promise<BaseApiResponse<OrderBook[]>> {
     return await api_factory.getInstance().post(`${this.baseUrl}/${exchange}/order_books`, symbols);
   }
 
-  async getTradingPairs(exchange: string): Promise<BaseApiResponse<TradingPairs>> {
+  async getTradingPairs(exchange: string): Promise<BaseApiResponse<TradingPair[]>> {
     return await api_factory.getInstance().get(`${this.baseUrl}/${exchange}/trading_pairs`);
   }
 }

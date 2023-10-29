@@ -6,16 +6,18 @@ export default class Splitter {
   static exchanges: Exchange[] = [];
 
 
-  private static init() {
+  static init() {
     this.exchanges.push(new Exchange("gate", "_"));
     this.exchanges.push(new Exchange("binance", ""));
     this.exchanges.push(new Exchange("bitrue", ""));
-    this.exchanges.push(new Exchange("okx", "", true));
+    this.exchanges.push(new Exchange("okx", "-"));
     this.exchanges.push(new Exchange("huobi", "", true));
   }
 
   static async split() {
-    this.init();
+    if(this.exchanges.length === 0) {
+      this.init();
+    }
 
     await Promise.all(this.exchanges.map(async (exc) => {
       await exc.getBaseQuotes();
@@ -29,11 +31,12 @@ export default class Splitter {
       this.exchanges[i].tokens = outputPairs[i];
     }
 
-    console.log(outputPairs);
 
     await Promise.all(this.exchanges.map(async (exchange) => {
-      return exchange.getOrderBooks(exchange.tokens);
+      await exchange.getOrderBooks(exchange.tokens);
     }));
+
+    console.log(this.exchanges[0].tokens);
   }
 
   static findRepeatedBaseAndQuoteElements(arrayOfPairs: Token[][]): Token[][] {

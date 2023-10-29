@@ -7,7 +7,7 @@ export default class ExchangeApi {
 
   baseUrl = "http://localhost:8080";
 
-  async getOrderBooks(symbols: string[], exchange: string): Promise<BaseApiResponse<OrderBook[]>> {
+  async getOrderBooks(symbols: string[], exchange: string): Promise<BaseApiResponse<OrderBook[] | string>> {
     return await api_factory.getInstance().post(`${this.baseUrl}/${exchange}/order_books`, symbols);
   }
 

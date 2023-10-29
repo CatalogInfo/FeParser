@@ -23,8 +23,8 @@ export default class ExchangeMapper {
           token.bid = symbol.bid;
           token.ask = symbol.ask;
         }
-      })
-    })
+      });
+    });
   }
 
   static mapTokensToSymbols(tokens: Token[], splitter: string, toLowerCase: boolean): string[] {
@@ -40,7 +40,6 @@ export default class ExchangeMapper {
       symbols.push(symbol);
     });
 
-    console.log(symbols)
     return symbols;
   }
 }

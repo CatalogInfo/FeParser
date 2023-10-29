@@ -1,4 +1,4 @@
-export default interface TradingPairs {
+export default interface TradingPairResponse {
     symbol: string;
     base: string;
     quote: string;

@@ -1,4 +1,4 @@
-export default interface OrderBooks {
+export default interface OrderBookResponse {
     symbol: string;
     bid: number;
     ask: number;

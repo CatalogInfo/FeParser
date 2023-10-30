@@ -1,5 +1,5 @@
 import Exchange, { Token } from "../models/exchange";
-import TradingPairResponse from "../response/trading_pair_response";
+// import TradingPairResponse from "../response/trading_pair_response";
 
 export default class Splitter {
 
@@ -7,11 +7,11 @@ export default class Splitter {
 
 
   static init() {
-    this.exchanges.push(new Exchange("gate", "_"));
-    this.exchanges.push(new Exchange("binance", ""));
-    this.exchanges.push(new Exchange("bitrue", ""));
-    this.exchanges.push(new Exchange("okx", "-"));
-    this.exchanges.push(new Exchange("huobi", "", true));
+    this.exchanges.push(new Exchange("gate", "_", false, "https://www.gate.io/trade/"));
+    this.exchanges.push(new Exchange("binance", "", false, "https://www.binance.com/en/trade/"));
+    this.exchanges.push(new Exchange("bitrue", "", false, "https://www.bitrue.com/trade/"));
+    this.exchanges.push(new Exchange("okx", "-", false, "https://www.okx.com/trade-spot/"));
+    this.exchanges.push(new Exchange("huobi", "", true, "https://www.htx.com/en-us/trade/"));
   }
 
   static async split() {

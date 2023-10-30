@@ -14,7 +14,7 @@ export default class SpreadFinder {
         for(const token of exchange.tokens) {
           for(const token1 of exchange1.tokens) {
             if(token.base.toUpperCase() === token1.base.toUpperCase()) {
-              this.makeMessage(token, token1, exchange.name, exchange1.name);
+              this.makeMessage(token, token1, exchange.name, exchange.link, exchange1.name, exchange1.link);
             }
           }
         }
@@ -26,24 +26,31 @@ export default class SpreadFinder {
     token1: Token,
     token2: Token,
     exchange1: string,
-    exchange2: string
-) {
-  const spread = this.findSpread(token1, token2);
-  if(spread > 2 && spread < 200) {
-      const message = {
-      symbol: token1.symbol,
-      exchange1: exchange1,
-      exchange2: exchange2,
-      bid1: token1.bid,
-      ask1: token1.ask,
-      bid2: token2.bid,
-      ask2: token2.ask,
-      spread: spread
-    };
-      console.log(message);
-  }
+    link1: string,
+    exchange2: string,
+    link2: string
+  ) {
+      const spread = this.findSpread(token1, token2);
+      if(spread > 2 && spread < 200) {
+          const message = {
+          symbol: token1.symbol,
+          symbol2: token2.symbol,
+          exchange1: exchange1,
+          exchange2: exchange2,
+          spread: spread
+        };
+        const formattedMessage = `
+          Symbol: ${message.symbol}
+          ${message.exchange1}
+          Link: ${link1 + token1.symbol}
+          ${message.exchange2}
+          Link: ${link2 + token2.symbol}
+          Spread: ${message.spread}
+          `;
+        console.log(formattedMessage);
+      }
     
-}
+    } 
 
   static hasSpread(token: Token, token1: Token) {
     const bid1 = token.bid;

@@ -14,13 +14,15 @@ export default class Exchange {
   private api: ExchangeApi = new ExchangeApi();
   tokens: Token[] = [];
   name: string = "";
+  link: string = "";
   private splitter: string = "";
   private toLowerCase: boolean = false;
 
-  constructor(exchange: string, splitter: string, toLowerCase: boolean = false) {
+  constructor(exchange: string, splitter: string, toLowerCase: boolean, link: string) {
     this.name = exchange;
     this.splitter = splitter;
     this.toLowerCase = toLowerCase;
+    this.link = link;
   }
 
   public async getBaseQuotes() {

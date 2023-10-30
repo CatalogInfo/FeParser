@@ -1,5 +1,5 @@
 import Exchange, { Token } from "../models/exchange";
-import TradingPairResponse from "../response/trading_pair_response";
+// import TradingPairResponse from "../response/trading_pair_response";
 
 export default class Splitter {
 
@@ -7,13 +7,13 @@ export default class Splitter {
 
 
   static init() {
-    this.exchanges.push(new Exchange("gate", "_"));
-    this.exchanges.push(new Exchange("binance", ""));
-    this.exchanges.push(new Exchange("bitrue", ""));
-    this.exchanges.push(new Exchange("okx", "-"));
-    this.exchanges.push(new Exchange("huobi", "", true));
-    // this.exchanges.push(new Exchange("mexc", ""));
-    this.exchanges.push(new Exchange("bybit", ""));
+    this.exchanges.push(new Exchange("gate", "_", "https://www.gate.io/trade/", "_")); // BASE_QUOTE, ++
+    this.exchanges.push(new Exchange("binance", "", "https://www.binance.com/en/trade/", "")); // doesn't matter
+    this.exchanges.push(new Exchange("bitrue", "", "https://www.bitrue.com/trade/", "_")); // BASEQOUTE api, ++
+    this.exchanges.push(new Exchange("okx", "-", "https://www.okx.com/trade-spot/", "-")); // BASE-QUOTE api, ++
+    this.exchanges.push(new Exchange("huobi", "", "https://www.htx.com/en-us/trade/", "_", true)); // basequote api, base_quote link dolboebi
+    this.exchanges.push(new Exchange("mexc", "", "https://www.mexc.com/exchange/", "_")); //BASEQUOTE api, BASE_QUOTE link tozhe dauni
+    this.exchanges.push(new Exchange("bybit", "", "https://www.bybit.com/en-US/trade/spot/", "/")); // BASEQUOTE , BASE/QUOTE link eblani
 
   }
 

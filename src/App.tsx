@@ -1,7 +1,7 @@
 import './App.css'
-import ExhangeApi from './api/exchange_api';
-import Splitter from './splitter/splitter';
-import Exchange from './models/exchange';
+// import ExhangeApi from './api/exchange_api';
+// import Splitter from './splitter/splitter';
+// import Exchange from './models/exchange';
 import SpreadFinder from './spread_finder';
 
 function App() {

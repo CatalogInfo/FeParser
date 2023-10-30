@@ -14,12 +14,16 @@ export default class Exchange {
   private api: ExchangeApi = new ExchangeApi();
   tokens: Token[] = [];
   name: string = "";
+  link: string = "";
+  linkSplitter: string = "";
   private splitter: string = "";
   private toLowerCase: boolean = false;
 
-  constructor(exchange: string, splitter: string, toLowerCase: boolean = false) {
+  constructor(exchange: string, splitter: string, link: string, linkSplitter: string, toLowerCase: boolean = false) {
     this.name = exchange;
     this.splitter = splitter;
+    this.link = link;
+    this.linkSplitter = linkSplitter;
     this.toLowerCase = toLowerCase;
   }
 

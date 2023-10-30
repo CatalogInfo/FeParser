@@ -1,5 +1,5 @@
 import TelegramApi from "./api/telegram_api";
-import { Token } from "./models/exchange";
+import Exchange, { Token } from "./models/exchange";
 import Splitter from "./splitter/splitter";
 
 export default class SpreadFinder {
@@ -15,7 +15,7 @@ export default class SpreadFinder {
         for(const token of exchange.tokens) {
           for(const token1 of exchange1.tokens) {
             if(token.base.toUpperCase() === token1.base.toUpperCase()) {
-              this.makeMessage(token, token1, exchange.name, exchange1.name);
+              this.makeMessage(token, token1, exchange, exchange1);
             }
           }
         }
@@ -26,23 +26,43 @@ export default class SpreadFinder {
   static makeMessage(
     token1: Token,
     token2: Token,
-    exchange1: string,
-    exchange2: string
+    exchange1: Exchange,
+    exchange2: Exchange
 ) {
   const spread = this.findSpread(token1, token2);
   if(spread > 2 && spread < 200) {
       const message = {
       symbol: token1.symbol,
-      exchange1: exchange1,
-      exchange2: exchange2,
+      exchange1: exchange1.name,
+      exchange2: exchange2.name,
       bid1: token1.bid,
       ask1: token1.ask,
       bid2: token2.bid,
       ask2: token2.ask,
-      spread: spread
+      spread: spread.toFixed(2),
     };
-    TelegramApi.sendMessage(String(message));
-      console.log(message);
+    console.log(message);
+    let formattedMessage = `
+    Symbol: ${message.symbol}
+    ${message.exchange1}: ${exchange1.link + token1.base + exchange1.linkSplitter + token1.quote}
+    ${message.exchange2}: ${exchange2.link + token2.base + exchange2.linkSplitter + token2.quote}
+    Buy ${message.ask1}
+    Sell ${message.bid2}
+    Spread: ${message.spread}%25
+    `;
+    if(message.bid1 > message.ask2) {
+      formattedMessage = 
+      `Symbol: ${message.symbol}
+      ${message.exchange1}: ${exchange1.link + token1.base + exchange1.linkSplitter + token1.quote}
+      ${message.exchange2}: ${exchange2.link + token2.base + exchange2.linkSplitter + token2.quote}
+      Sell ${message.bid1}
+      Buy ${message.ask2}
+      Spread: ${message.spread}%25
+      `;
+  }
+ 
+    TelegramApi.sendMessage(formattedMessage);
+      console.log(formattedMessage);
   }
     
 }
@@ -85,7 +105,7 @@ export default class SpreadFinder {
         sToken = firstTokenPrice;
     }
 
-    return Math.abs(fToken - sToken) / sToken * 100;
+    return (Math.abs(fToken - sToken) / sToken * 100);
   }
 
   static findExchangePrices(token1: Token, token2: Token, name1: string, name2: string) {

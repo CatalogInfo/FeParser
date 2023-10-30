@@ -12,6 +12,9 @@ export default class Splitter {
     this.exchanges.push(new Exchange("bitrue", ""));
     this.exchanges.push(new Exchange("okx", "-"));
     this.exchanges.push(new Exchange("huobi", "", true));
+    // this.exchanges.push(new Exchange("mexc", ""));
+    this.exchanges.push(new Exchange("bybit", ""));
+
   }
 
   static async split() {

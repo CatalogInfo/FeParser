@@ -1,3 +1,4 @@
+import TelegramApi from "./api/telegram_api";
 import { Token } from "./models/exchange";
 import Splitter from "./splitter/splitter";
 
@@ -40,6 +41,7 @@ export default class SpreadFinder {
       ask2: token2.ask,
       spread: spread
     };
+    TelegramApi.sendMessage(String(message));
       console.log(message);
   }
     

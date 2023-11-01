@@ -7,20 +7,25 @@ export default class SpreadFinder {
   static async compareExchanges() {
     await Splitter.split();
 
-    for (const exchange of Splitter.exchanges) {
+    const exList: string[] = [];
+
+    for(const exchange of Splitter.exchanges) {
+      exList.push(exchange.name);
       for (const exchange1 of Splitter.exchanges) {
-        if (exchange.name === exchange1.name) {
+        if (exList.includes(exchange1.name)) {
           continue;
         }
 
-        for (const token of exchange.tokens) {
-          for (const token1 of exchange1.tokens) {
-            if (token.base.toUpperCase() === token1.base.toUpperCase()) {
+        
+
+        for(const token of exchange.tokens) {
+          for(const token1 of exchange1.tokens) {
+            if(token.base.toUpperCase() === token1.base.toUpperCase()) {
               await this.makeMessage(token, token1, exchange, exchange1);
             }
           }
         }
-      }
+      } 
     }
   }
 

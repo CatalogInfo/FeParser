@@ -4,7 +4,10 @@ import SpreadFinder from './spread_finder';
 function App() {
 
   async function callApi() {
-    console.log(await SpreadFinder.compareExchanges())
+    const v = true;
+    while(v) {
+      console.log(await SpreadFinder.compareExchanges())
+    }
 
   }
 

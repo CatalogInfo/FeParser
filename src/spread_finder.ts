@@ -16,8 +16,6 @@ export default class SpreadFinder {
           continue;
         }
 
-        
-
         for(const token of exchange.tokens) {
           for(const token1 of exchange1.tokens) {
             if(token.base.toUpperCase() === token1.base.toUpperCase()) {
@@ -36,7 +34,7 @@ export default class SpreadFinder {
     exchange2: Exchange
   ) {
     const spread = this.findSpread(token1, token2);
-    if (spread > 2 && spread < 200) {
+    if (spread > 2 && spread < 20) {
       let formattedMessage = `
       ${token1.symbol}
       <a href="${
@@ -44,7 +42,7 @@ export default class SpreadFinder {
       }"> ${exchange1.name} </a>: buy ${token1.ask}
       <a href="${
         exchange2.link + token2.base + exchange2.linkSplitter + token2.quote
-      }"> ${exchange2.name} </a>: sell ${token2.ask}
+      }"> ${exchange2.name} </a>: sell ${token2.bid}
       spread: ${spread.toFixed(2)}%25
     `;
       if (token1.bid > token2.ask) {
@@ -101,36 +99,8 @@ export default class SpreadFinder {
     return bid !== 0.0 && ask !== 0.0;
   }
 
-  static percentBetweenPrices(
-    firstTokenPrice: number,
-    secondTokenPrice: number
-  ) {
-    let fToken = firstTokenPrice;
-    let sToken = secondTokenPrice;
-
-    if (firstTokenPrice < secondTokenPrice) {
-      fToken = secondTokenPrice;
-      sToken = firstTokenPrice;
-    }
-
-    return (Math.abs(fToken - sToken) / sToken) * 100;
+  static percentBetweenPrices(firstTokenPrice: number,secondTokenPrice: number) {
+    return (Math.abs(firstTokenPrice - secondTokenPrice) / secondTokenPrice) * 100;
   }
 
-  static findExchangePrices(
-    token1: Token,
-    token2: Token,
-    name1: string,
-    name2: string
-  ) {
-    const bid1 = token1.bid;
-    const bid2 = token2.bid;
-    const ask1 = token1.ask;
-    const ask2 = token2.ask;
-
-    if (bid1 > ask2) {
-      return { name: name1, name1: name2, ask2: ask2, bid1: bid1 };
-    }
-
-    return { name: name1, name1: name2, ask1: ask1, bid2: bid2 };
-  }
 }

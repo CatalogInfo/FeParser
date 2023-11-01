@@ -12,8 +12,8 @@ export default class Splitter {
     this.exchanges.push(new Exchange("bitrue", "", "https://www.bitrue.com/trade/", "_")); // BASEQOUTE api, ++
     this.exchanges.push(new Exchange("okx", "-", "https://www.okx.com/trade-spot/", "-")); // BASE-QUOTE api, ++
     this.exchanges.push(new Exchange("huobi", "", "https://www.htx.com/en-us/trade/", "_", true)); // basequote api, base_quote link dolboebi
-    // this.exchanges.push(new Exchange("mexc", "", "https://www.mexc.com/exchange/", "_")); //BASEQUOTE api, BASE_QUOTE link tozhe dauni
-    // this.exchanges.push(new Exchange("bybit", "", "https://www.bybit.com/en-US/trade/spot/", "/")); // BASEQUOTE , BASE/QUOTE link eblani
+    this.exchanges.push(new Exchange("mexc", "", "https://www.mexc.com/exchange/", "_")); //BASEQUOTE api, BASE_QUOTE link tozhe dauni
+    this.exchanges.push(new Exchange("bybit", "", "https://www.bybit.com/en-US/trade/spot/", "/")); // BASEQUOTE , BASE/QUOTE link eblani
 
   }
 

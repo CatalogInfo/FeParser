@@ -5,6 +5,7 @@ import OrderBookResponse from "../response/order_book_response";
 
 export default class ExchangeMapper {
   static mapQuoteBaseToTokens(baseSymbols: TradingPairResponse[], tokens: Token[]) {
+    this.clearArray(tokens);
     return baseSymbols.map(symbol => {
       return tokens.push({
         symbol: symbol.symbol.toUpperCase(),
@@ -14,6 +15,12 @@ export default class ExchangeMapper {
         ask: 0
       });
     })
+  }
+
+  static clearArray<T>(array: T[]) {
+    while (array.length > 0) {
+      array.pop();
+    }
   }
 
   static mapOrderBookToTokens(orderBooks: OrderBookResponse[], tokens: Token[]) {

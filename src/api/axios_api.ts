@@ -15,14 +15,7 @@ export default class AxiosApi implements BaseApi {
   private axiosInstance;
 
   constructor() {
-    this.axiosInstance = axios.create({
-      headers: {
-        // 'Content-Type': 'application/json', // Example: Setting the content type
-        // 'Accept': '*/*',
-        // 'Origin': 'https://localhost:3000',
-        // 'Refer': 'https://localhost:3000/',
-      }
-    });
+    this.axiosInstance = axios.create({});
 
     applyCaseMiddleware(this.axiosInstance);
   }

@@ -18,8 +18,20 @@ export default class SpreadFinder {
 
         for(const token of exchange.tokens) {
           for(const token1 of exchange1.tokens) {
+            if(this.hasSpread(token, token1)) {
+              if(exchange.hasTokenBySymbolFromBlackList(token.symbol) && exchange1.hasTokenBySymbolFromBlackList(token1.symbol)) {
+                if (!exchange.isTokenReady(token.symbol) && !exchange1.isTokenReady(token1.symbol)) {
+                  continue;
+                }
+              }
+            }
+      
+
             if(token.base.toUpperCase() === token1.base.toUpperCase()) {
               await this.makeMessage(token, token1, exchange, exchange1);
+
+              exchange.addToBlackList(token.symbol);
+              exchange.addToBlackList(token1.symbol);
             }
           }
         }

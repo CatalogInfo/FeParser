@@ -2,9 +2,7 @@ import Exchange, { Token } from "../models/exchange";
 // import TradingPairResponse from "../response/trading_pair_response";
 
 export default class Splitter {
-
   static exchanges: Exchange[] = [];
-
 
   static init() {
     this.exchanges.push(new Exchange("gate", "_", "https://www.gate.io/trade/", "_")); // BASE_QUOTE, ++

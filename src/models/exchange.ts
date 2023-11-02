@@ -16,6 +16,7 @@ export default class Exchange {
   name: string = "";
   link: string = "";
   linkSplitter: string = "";
+  blackList: {symbol: string, time: number}[] = [];
   private splitter: string = "";
   private toLowerCase: boolean = false;
 
@@ -25,6 +26,37 @@ export default class Exchange {
     this.link = link;
     this.linkSplitter = linkSplitter;
     this.toLowerCase = toLowerCase;
+  }
+
+  public addToBlackList(symbol: string) {
+    this.blackList.push({symbol: symbol, time: new Date().getMilliseconds()});
+  }
+
+  public getTokenBySymbolFromBlackList(symbol: string): {symbol: string, time: number}[] {
+    return this.blackList.filter((item) => item.symbol === symbol);
+  }
+
+  public hasTokenBySymbolFromBlackList(symbol: string): boolean {
+    let hasToken = false;
+
+    this.blackList.map((item) => {
+      if (item.symbol === symbol) {
+        hasToken = true;
+      }
+    });
+
+    return hasToken;
+  }
+
+
+  public isTokenReady(symbol: string) {
+    const item = this.getTokenBySymbolFromBlackList(symbol)[0];
+
+    if (new Date().getMilliseconds() - item.time > 3600000) {
+      return true;
+    }
+
+    return false;
   }
 
   public async getBaseQuotes() {

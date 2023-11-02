@@ -1,9 +1,14 @@
 import './App.css'
+import Splitter from './splitter/splitter';
 import SpreadFinder from './spread_finder';
 
 function App() {
+  if(Splitter.exchanges.length === 0) {
+    Splitter.init();
+  }
 
   async function callApi() {
+
     const v = true;
     while(v) {
       console.log(await SpreadFinder.compareExchanges())

@@ -29,7 +29,7 @@ export default class Exchange {
   }
 
   public addToBlackList(symbol: string) {
-    this.blackList.push({symbol: symbol, time: new Date().getMilliseconds()});
+    this.blackList.push({symbol: symbol, time: Date.now()});
   }
 
   public getTokenBySymbolFromBlackList(symbol: string): {symbol: string, time: number}[] {
@@ -52,7 +52,7 @@ export default class Exchange {
   public isTokenReady(symbol: string) {
     const item = this.getTokenBySymbolFromBlackList(symbol)[0];
 
-    if (new Date().getMilliseconds() - item.time > 3600000) {
+    if (Date.now() - item.time > 3600000) {
       return true;
     }
 

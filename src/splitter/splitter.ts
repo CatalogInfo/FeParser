@@ -5,6 +5,7 @@ export default class Splitter {
   static exchanges: Exchange[] = [];
 
   static init() {
+    console.log("NBvyutrcyub")
     this.exchanges.push(new Exchange("gate", "_", "https://www.gate.io/trade/", "_")); // BASE_QUOTE, ++
     this.exchanges.push(new Exchange("binance", "", "https://www.binance.com/en/trade/", "")); // doesn't matter
     this.exchanges.push(new Exchange("bitrue", "", "https://www.bitrue.com/trade/", "_")); // BASEQOUTE api, ++
@@ -16,10 +17,6 @@ export default class Splitter {
   }
 
   static async split() {
-    if(this.exchanges.length === 0) {
-      this.init();
-    }
-
     await Promise.all(this.exchanges.map(async (exc) => {
       await exc.getBaseQuotes();
     }));

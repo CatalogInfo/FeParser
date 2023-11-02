@@ -28,50 +28,20 @@ export default class Exchange {
     this.toLowerCase = toLowerCase;
   }
 
-  public addToBlackList(symbol: string) {
-    this.blackList.push({symbol: symbol, time: Date.now()});
-  }
-
-  public getTokenBySymbolFromBlackList(symbol: string): {symbol: string, time: number}[] {
-    return this.blackList.filter((item) => item.symbol === symbol);
-  }
-
-  public hasTokenBySymbolFromBlackList(symbol: string): boolean {
-    let hasToken = false;
-
-    this.blackList.map((item) => {
-      if (item.symbol === symbol) {
-        hasToken = true;
-      }
-    });
-
-    return hasToken;
-  }
-
-
-  public isTokenReady(symbol: string) {
-    const item = this.getTokenBySymbolFromBlackList(symbol)[0];
-
-    if (Date.now() - item.time > 3600000) {
-      return true;
-    }
-
-    return false;
-  }
-
   public async getBaseQuotes() {
     const { data: baseQuotes } = await this.api.getTradingPairs(this.name);
-    ExchangeMapper.mapQuoteBaseToTokens(baseQuotes, this.tokens);
+    ExchangeMapper.mapQuoteBaseToTokens(baseQuotes, this.tokens, this);
   }
 
   public async getOrderBooks(tokens: Token[]) {
-
     const { data: orderBooks } = await this.api.getOrderBooks(ExchangeMapper.mapTokensToSymbols(tokens, this.splitter, this.toLowerCase), this.name);
+
     if(orderBooks === "running") {
       await TimerUtils.sleep(2000);
       await this.getOrderBooks(tokens);
     }
-    if(typeof orderBooks !== "string" )
-    ExchangeMapper.mapOrderBookToTokens(orderBooks, tokens);  
+
+    if(typeof orderBooks !== "string")
+      ExchangeMapper.mapOrderBookToTokens(orderBooks, tokens);  
   }
 }

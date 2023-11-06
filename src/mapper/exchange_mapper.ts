@@ -2,6 +2,7 @@ import { Token } from "../models/exchange";
 import TradingPairResponse from "../response/trading_pair_response";
 import SymbolUtils from "../utils/symbol_utils";
 import OrderBookResponse from "../response/order_book_response";
+import BanListResponse from "../response/ban_list_response";
 
 export default class ExchangeMapper {
   static mapQuoteBaseToTokens(baseSymbols: TradingPairResponse[], tokens: Token[]) {
@@ -34,6 +35,12 @@ export default class ExchangeMapper {
     });
   }
 
+  static mapBanListToArray(banList: string[], banListResponse: BanListResponse[]) {
+    return banListResponse.map(symbol => {
+      return banList.push(symbol.token);
+    });
+  }
+  
   static mapTokensToSymbols(tokens: Token[], splitter: string, toLowerCase: boolean): string[] {
     const symbols: string[] = [];
 

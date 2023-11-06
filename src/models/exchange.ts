@@ -17,6 +17,7 @@ export default class Exchange {
   link: string = "";
   linkSplitter: string = "";
   blackList: {symbol: string, time: number}[] = [];
+  banList = [];
   private splitter: string = "";
   private toLowerCase: boolean = false;
 
@@ -31,6 +32,11 @@ export default class Exchange {
   public async getBaseQuotes() {
     const { data: baseQuotes } = await this.api.getTradingPairs(this.name);
     ExchangeMapper.mapQuoteBaseToTokens(baseQuotes, this.tokens, this);
+  }
+
+  public async getBanList() {
+    const { data: banListResponse } = await this.api.getBanList(this.name);
+    ExchangeMapper.mapBanListToArray(this.banList, banListResponse);
   }
 
   public async getOrderBooks(tokens: Token[]) {

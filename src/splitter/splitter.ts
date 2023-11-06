@@ -19,6 +19,7 @@ export default class Splitter {
   static async split() {
     await Promise.all(this.exchanges.map(async (exc) => {
       await exc.getBaseQuotes();
+      await exc.getBanList();
     }));
 
     const tokens: Token[][] = this.exchanges.map(exc => exc.tokens);

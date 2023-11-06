@@ -2,12 +2,12 @@ import TelegramApi from "./api/telegram_api";
 import Exchange, { Token } from "./models/exchange";
 import Splitter from "./splitter/splitter";
 import SpreadCalculator from "./spread_calculator";
+import BanListUtils from "./utils/ban_list_utils";
 import BlackListUtils from "./utils/black_list_utils";
 import MessageUtils from "./utils/message_utils";
 import TimerUtils from "./utils/timer_utils";
 
 export default class SpreadFinder {
-
   static MIN_SPREAD = 2;
   static MAX_SPREAD = 20;
 
@@ -25,7 +25,12 @@ export default class SpreadFinder {
       for (const token of pair.exchange1.tokens) {
         for (const token1 of pair.exchange2.tokens) {
           if (token.base.toUpperCase() === token1.base.toUpperCase()) {
-            await this.defineSpread(token, token1, pair.exchange1, pair.exchange2);
+            await this.defineSpread(
+              token,
+              token1,
+              pair.exchange1,
+              pair.exchange2
+            );
           }
         }
       }
@@ -39,32 +44,36 @@ export default class SpreadFinder {
     exchange2: Exchange
   ) {
     const spread = SpreadCalculator.calculateSpread(token1, token2);
-      if(spread > this.MIN_SPREAD && spread < this.MAX_SPREAD) {
-        if (BlackListUtils.tokenInBlackList(token1, token2, exchange1, exchange2)) {
-          return;
-        } 
-        BlackListUtils.addToBlackList(token1.symbol, exchange1.blackList);
-        BlackListUtils.addToBlackList(token2.symbol, exchange2.blackList);
+    if (spread > this.MIN_SPREAD && spread < this.MAX_SPREAD) {
+      if (
+        BlackListUtils.tokenInBlackList(token1, token2, exchange1, exchange2) ||
+        BanListUtils.tokenInBanList(token1, exchange1) ||
+        BanListUtils.tokenInBanList(token2, exchange2)
+      ) {
+        return;
+      }
+      BlackListUtils.addToBlackList(token1.symbol, exchange1.blackList);
+      BlackListUtils.addToBlackList(token2.symbol, exchange2.blackList);
 
-        let formattedMessage = MessageUtils.getFormattedMessage(
-          token1,
+      let formattedMessage = MessageUtils.getFormattedMessage(
+        token1,
+        token2,
+        exchange1,
+        exchange2,
+        spread
+      );
+      if (token1.bid > token2.ask) {
+        formattedMessage = MessageUtils.getFormattedMessage(
           token2,
-          exchange1,
+          token1,
           exchange2,
+          exchange1,
           spread
         );
-        if (token1.bid > token2.ask) {
-          formattedMessage = MessageUtils.getFormattedMessage(
-            token2,
-            token1,
-            exchange2,
-            exchange1,
-            spread
-          );
-        }
+      }
 
-        await TelegramApi.sendMessage(formattedMessage);
-        TimerUtils.sleep(1000);
+      await TelegramApi.sendMessage(formattedMessage);
+      TimerUtils.sleep(1000);
     }
   }
 

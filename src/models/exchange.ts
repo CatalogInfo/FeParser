@@ -23,6 +23,7 @@ export default class Exchange {
 
   clearBlackList() {
     this.blackList = [];
+    console.log(this.blackList);
   }
 
   constructor(exchange: string, splitter: string, link: string, linkSplitter: string, toLowerCase: boolean = false) {

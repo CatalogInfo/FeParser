@@ -39,7 +39,7 @@ export default class BlackListUtils {
 
     console.log(exchange.blackList)
     if (Date.now() - item.time > 120000) {
-      exchange.clearBlackList();
+      item.time = Date.now();
       return true;
     }
 

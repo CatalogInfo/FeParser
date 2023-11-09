@@ -5,20 +5,20 @@ export default class BlackListUtils {
   public static tokenInBlackList(
     token1: Token,
     token2: Token,
-    exchange1: Exchange,
-    exchange2: Exchange
+    blackList1: {symbol: string, time: number}[],
+    blackList2: {symbol: string, time: number}[]
   ) {
     return (
       this.hasTokenBySymbolFromBlackList(
         token1.symbol,
-        exchange1.blackList
+        blackList1
       ) &&
       this.hasTokenBySymbolFromBlackList(
         token2.symbol,
-        exchange2.blackList
+        blackList2
       ) &&
-      !this.isTokenReady(token1.symbol, exchange1.blackList) &&
-      !this.isTokenReady(token2.symbol, exchange2.blackList)
+      !this.isTokenReady(token1.symbol, blackList1) &&
+      !this.isTokenReady(token2.symbol,blackList2)
     );
   }
 
@@ -38,8 +38,8 @@ export default class BlackListUtils {
     const item = this.getTokenBySymbolFromBlackList(symbol, blackList)[0];
 
     console.log(blackList)
-    if (Date.now() - item.time > 200000) {
-      blackList = this.deleteTokenFromBlackList(symbol, blackList);
+    if (Date.now() - item.time > 120000) {
+      blackList = [];
       return true;
     }
 

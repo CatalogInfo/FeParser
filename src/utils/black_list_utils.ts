@@ -30,6 +30,15 @@ export default class BlackListUtils {
     return blackList.filter(item => item.symbol === symbol);
   }
 
+  private static updateTime(symbol: string, blackList: {symbol: string, time: number}[]) {
+    return blackList.filter(item => {
+      if(item.symbol === symbol) {
+        item.time = Date.now();
+      }
+  });
+
+  }
+
   private static hasTokenBySymbolFromBlackList(symbol: string, blackList: {symbol: string, time: number}[]): boolean {
     return blackList.some(item => item.symbol.toUpperCase() === symbol);
   }
@@ -39,7 +48,7 @@ export default class BlackListUtils {
 
     console.log(exchange.blackList)
     if (Date.now() - item.time > 120000) {
-      item.time = Date.now();
+      this.updateTime(symbol, exchange.blackList);
       return true;
     }
 

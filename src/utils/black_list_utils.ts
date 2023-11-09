@@ -39,6 +39,7 @@ export default class BlackListUtils {
 
     console.log(blackList)
     if (Date.now() - item.time > 120000) {
+      blackList.push({symbol: "workes", time: Date.now()});
       blackList = [];
       return true;
     }

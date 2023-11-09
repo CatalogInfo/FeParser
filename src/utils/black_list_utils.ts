@@ -23,6 +23,10 @@ export default class BlackListUtils {
   }
 
   public static addToBlackList(symbol: string, blackList: {symbol: string, time: number}[]) {
+    if (this.hasTokenBySymbolFromBlackList(symbol, blackList)) {
+      return;
+    }
+    
     blackList.push({symbol: symbol, time: Date.now()});
   }
 

@@ -37,8 +37,9 @@ export default class BlackListUtils {
   public static isTokenReady(symbol: string, blackList: {symbol: string, time: number}[]) {
     const item = this.getTokenBySymbolFromBlackList(symbol, blackList)[0];
 
-    if (Date.now() - item.time > 3600000) {
-      this.deleteTokenFromBlackList(symbol, blackList);
+    console.log(blackList)
+    if (Date.now() - item.time > 200000) {
+      blackList = this.deleteTokenFromBlackList(symbol, blackList);
       return true;
     }
 
@@ -46,6 +47,10 @@ export default class BlackListUtils {
   }
 
   private static deleteTokenFromBlackList(symbol: string, blackList: {symbol: string, time: number}[]) {
-    return blackList.filter(item => item.symbol !== symbol)
+    return blackList.filter((item, index) => {
+      if(item.symbol.toUpperCase() === symbol) {
+        blackList.splice(index, 1);
+      }
+    });
   }
 }

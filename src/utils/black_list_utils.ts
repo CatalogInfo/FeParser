@@ -53,7 +53,7 @@ export default class BlackListUtils {
     console.log(exchange1.blackList)
     console.log(exchange2.blackList)
 
-    if (Date.now() - item1.time > 120000 && Date.now() - item2.time > 120000) {
+    if (Date.now() - item1.time > 3600000 && Date.now() - item2.time > 120000) {
       this.updateTime(symbol1, exchange1.blackList);
       this.updateTime(symbol2, exchange2.blackList);
 
@@ -61,13 +61,5 @@ export default class BlackListUtils {
     }
 
     return false;
-  }
-
-  private static deleteTokenFromBlackList(symbol: string, blackList: {symbol: string, time: number}[]) {
-    return blackList.filter((item, index) => {
-      if(item.symbol.toUpperCase() === symbol) {
-        blackList.splice(index, 1);
-      }
-    });
   }
 }

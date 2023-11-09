@@ -17,8 +17,7 @@ export default class BlackListUtils {
         token2.symbol,
         exchange2.blackList
       ) &&
-      !this.isTokenReady(token1.symbol, exchange1) &&
-      !this.isTokenReady(token2.symbol, exchange2)
+      !this.isTokenReady(token1.symbol, token2.symbol, exchange1, exchange2) 
     );
   }
 
@@ -26,7 +25,7 @@ export default class BlackListUtils {
     if (this.hasTokenBySymbolFromBlackList(symbol, blackList)) {
       return;
     }
-    
+
     blackList.push({symbol: symbol, time: Date.now()});
   }
 
@@ -47,12 +46,17 @@ export default class BlackListUtils {
     return blackList.some(item => item.symbol.toUpperCase() === symbol);
   }
 
-  public static isTokenReady(symbol: string, exchange: Exchange) {
-    const item = this.getTokenBySymbolFromBlackList(symbol, exchange.blackList)[0];
+  public static isTokenReady(symbol1: string, symbol2: string, exchange1: Exchange, exchange2: Exchange) {
+    const item1 = this.getTokenBySymbolFromBlackList(symbol1, exchange1.blackList)[0];
+    const item2 = this.getTokenBySymbolFromBlackList(symbol2, exchange2.blackList)[0];
 
-    console.log(exchange.blackList)
-    if (Date.now() - item.time > 120000) {
-      this.updateTime(symbol, exchange.blackList);
+    console.log(exchange1.blackList)
+    console.log(exchange2.blackList)
+
+    if (Date.now() - item1.time > 120000 && Date.now() - item2.time > 120000) {
+      this.updateTime(symbol1, exchange1.blackList);
+      this.updateTime(symbol2, exchange2.blackList);
+
       return true;
     }
 

@@ -53,7 +53,7 @@ export default class BlackListUtils {
     console.log(exchange1.blackList)
     console.log(exchange2.blackList)
 
-    if (Date.now() - item1.time > 3600000 && Date.now() - item2.time > 120000) {
+    if (Date.now() - item1.time > 3600000 && Date.now() - item2.time > 3600000) {
       this.updateTime(symbol1, exchange1.blackList);
       this.updateTime(symbol2, exchange2.blackList);
 

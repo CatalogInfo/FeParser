@@ -46,7 +46,7 @@ export default class SpreadFinder {
     const spread = SpreadCalculator.calculateSpread(token1, token2);
     if (spread > this.MIN_SPREAD && spread < this.MAX_SPREAD) {
       if (
-        BlackListUtils.tokenInBlackList(token1, token2, exchange1, exchange2) ||
+        BlackListUtils.tokenInBlackList(token1, token2, exchange1.blackList, exchange2.blackList) ||
         BanListUtils.tokenInBanList(token1, exchange1) ||
         BanListUtils.tokenInBanList(token2, exchange2)
       ) {
